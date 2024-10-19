@@ -2,6 +2,7 @@ object frmDataList: TfrmDataList
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsToolWindow
   Caption = 'QC List'
   ClientHeight = 640
   ClientWidth = 990
@@ -11,7 +12,7 @@ object frmDataList: TfrmDataList
   Font.Height = -13
   Font.Name = #12513#12452#12522#12458
   Font.Style = []
-  Position = poOwnerFormCenter
+  Position = poScreenCenter
   Scaled = False
   TextHeight = 20
   object dbgList: TDBGrid

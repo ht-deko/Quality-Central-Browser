@@ -10,7 +10,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.MainFormOnTaskbar := True;
+  Application.MainFormOnTaskbar := False;
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmDataList, frmDataList);
