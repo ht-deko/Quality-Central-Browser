@@ -1,5 +1,5 @@
 # Quality Central Browser
-Quality Central のブラウザです。
+Quality Central のブラウザです。Delphi 12.0 で作られており、Delphi Community Edition でビルド可能です。
 
 ![image](https://github.com/user-attachments/assets/b73f6c03-e5ed-48fc-9287-fcb6f7600a6c)
 
