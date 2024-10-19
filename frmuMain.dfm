@@ -77,7 +77,7 @@ object frmMain: TfrmMain
       Caption = '    '
       OnDblClick = Label_DblClick
     end
-    object Image1: TImage
+    object imgInternetArchive: TImage
       Left = 921
       Top = 5
       Width = 36
@@ -137,7 +137,7 @@ object frmMain: TfrmMain
         FF877167D9614C8D04312CE974CCD44CFFD35213E863EC089AAB77AD35BA00FF
         A875113FFC0DE2AB6914319084850000000049454E44AE426082}
       Visible = False
-      OnClick = Image1Click
+      OnClick = imgInternetArchiveClick
     end
     object edSHORT_DESCRIPTION: TDBEdit
       Left = 8

@@ -30,17 +30,11 @@ uses
 
 procedure TfrmDataList.dbgListDrawColumnCell(Sender: TObject; const Rect: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
-var
-  CellColor: TColor;
 begin
-  case (Sender as TDBGrid).DataSource.DataSet.Fields[MIDX_STATUS].AsInteger of
-    10: CellColor := $00D2FFD2;
-    20: CellColor := $00FCC7C2;
-    30: CellColor := $00C4C4FF;
-    50: CellColor := $00E6E6E6;
-  else
-    CellColor := (Sender as TDBGrid).Color;
-  end;
+  var CellColor :=
+    GetStatusColor(
+      (Sender as TDBGrid).DataSource.DataSet.Fields[MIDX_STATUS].AsInteger,
+      (Sender as TDBGrid).Color);
   if CellColor <> (Sender as TDBGrid).Color then
   begin
     if gdSelected in State then

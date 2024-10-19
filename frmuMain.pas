@@ -89,7 +89,7 @@ type
     tsDescription: TTabSheet;
     tsSteps: TTabSheet;
     tsWorkaround: TTabSheet;
-    Image1: TImage;
+    imgInternetArchive: TImage;
     bbDataList: TBitBtn;
     alDataList: TAction;
     procedure acFilterExecute(Sender: TObject);
@@ -103,7 +103,7 @@ type
     procedure Label_DblClick(Sender: TObject);
     procedure PageControlDblClick(Sender: TObject);
     procedure tsShow(Sender: TObject);
-    procedure Image1Click(Sender: TObject);
+    procedure imgInternetArchiveClick(Sender: TObject);
     procedure acDBExecute(Sender: TObject);
     procedure edDEFECT_NOKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -161,21 +161,18 @@ procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
     edSTATUS_NAME.Color       := c;
     edSHORT_DESCRIPTION.Color := c;
   end;
+  procedure ChangeIcon(ts: TTabSheet; aEnabled: Boolean);
+  begin
+    ts.ImageIndex := ts.PageIndex * 2 + Ord(aEnabled);
+  end;
 begin
   edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
-  case DataSet.Fields[MIDX_STATUS].AsInteger of
-    10: ChangeColor($00D2FFD2);
-    20: ChangeColor($00FCC7C2);
-    30: ChangeColor($00C4C4FF);
-    50: ChangeColor($00E6E6E6);
-  else
-    ChangeColor(clWindow);
-  end;
-  tsDescription.ImageIndex := tsDescription.PageIndex * 2 + Ord(DataSet.Fields[MIDX_DESCRIPTION].AsString <> '');
-  tsSteps.ImageIndex       := tsSteps.PageIndex       * 2 + Ord(DataSet.Fields[MIDX_STEPS      ].AsString <> '');
-  tsWorkaround.ImageIndex  := tsWorkaround.PageIndex  * 2 + Ord(DataSet.Fields[MIDX_WORKAROUND ].AsString <> '');
-  tsAttachment.ImageIndex  := tsAttachment.PageIndex  * 2 + Ord(DataSet.Fields[MIDX_ATTACHMENT ].AsString <> '');
-  tsComments.ImageIndex    := tsComments.PageIndex    * 2 + Ord(dmMain.cdsNested.RecordCount > 0);
+  ChangeColor(GetStatusColor(DataSet.Fields[MIDX_STATUS].AsInteger, clWindow));
+  ChangeIcon(tsDescription, DataSet.Fields[MIDX_DESCRIPTION].AsString <> '');
+  ChangeIcon(tsSteps      , DataSet.Fields[MIDX_STEPS      ].AsString <> '');
+  ChangeIcon(tsWorkaround , DataSet.Fields[MIDX_WORKAROUND ].AsString <> '');
+  ChangeIcon(tsAttachment , DataSet.Fields[MIDX_ATTACHMENT ].AsString <> '');
+  ChangeIcon(tsComments   , dmMain.cdsNested.RecordCount > 0               );
   GotoTop;
 end;
 
@@ -271,7 +268,7 @@ begin
   pcDetail.ActivePageIndex := 0;
 end;
 
-procedure TfrmMain.Image1Click(Sender: TObject);
+procedure TfrmMain.imgInternetArchiveClick(Sender: TObject);
 begin
   ShellExecute(0, 'open', PChar('https://web.archive.org/web/http://qc.embarcadero.com/wc/qcmain.aspx?d=' + edDEFECT_NO.Text) , nil, nil, SW_SHOWNORMAL);
 end;

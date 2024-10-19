@@ -151,11 +151,25 @@ const
 var
   dmMain: TdmMain;
 
+  function GetStatusColor(const Status: Integer; const DefaultColor: TColor): TColor;
+
 implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+function GetStatusColor(const Status: Integer; const DefaultColor: TColor): TColor;
+begin
+  case Status of
+    10: result := $00D2FFD2;
+    20: result := $00FCC7C2;
+    30: result := $00C4C4FF;
+    50: result := $00E6E6E6;
+  else
+    result := DefaultColor;
+  end;
+end;
 
 procedure TdmMain.cdsMainCalcFields(DataSet: TDataSet);
 begin
