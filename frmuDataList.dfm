@@ -47,7 +47,7 @@ object frmDataList: TfrmDataList
       item
         Expanded = False
         FieldName = 'FULL_NAME'
-        Title.Caption = 'Submitter'
+        Title.Caption = 'Submitted By'
         Width = 120
         Visible = True
       end
@@ -61,7 +61,7 @@ object frmDataList: TfrmDataList
       item
         Expanded = False
         FieldName = 'DATE_REPORTED'
-        Title.Caption = 'Reported'
+        Title.Caption = 'Date Reported'
         Visible = True
       end>
   end
