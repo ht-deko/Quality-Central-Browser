@@ -22,6 +22,7 @@ object frmDataList: TfrmDataList
     Height = 640
     Align = alClient
     DataSource = dmMain.dsMain
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ReadOnly = True
     TabOrder = 0
     TitleFont.Charset = ANSI_CHARSET
