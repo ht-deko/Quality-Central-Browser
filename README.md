@@ -20,6 +20,7 @@ Quality Central のブラウザです。
 
 ## フィルター
 ラベルやタブをダブルクリックすると、フィルター用の式が挿入されます。
-★の箇所はルックアップなので、元のコードを知らないと検索できません。元のコードは xml フォルダ内のデータで調べてください。
 
-![image](https://github.com/user-attachments/assets/af76413d-b15b-4d20-90c8-26e75de524f0)
+![image](https://github.com/user-attachments/assets/954da069-d9d7-4129-94fe-da168090ba31)
+
+★の箇所はルックアップなので、元のコードを知らないと検索できません。元のコードは xml フォルダ内のデータで調べてください。
