@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="CODE" fieldtype="string" WIDTH="2"/>
+<FIELD attrname="NAME" fieldtype="string" WIDTH="50"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW CODE="A" NAME="Crash / Data loss / Total failure"></ROW>
+<ROW CODE="B" NAME="Basic functionality failure"></ROW>
+<ROW CODE="C" NAME="Minor failure / Design problem"></ROW>
+<ROW CODE="D" NAME="Documentation problem"></ROW>
+<ROW CODE="E" NAME="Suggestion / Enhancement Request"></ROW>
+<ROW CODE="F" NAME="New Feature Request"></ROW>
+<ROW CODE="I" NAME="Issue"></ROW>
+<ROW CODE="S" NAME="Feature Specification issue"></ROW>
+</ROWDATA>
+</DATAPACKET>

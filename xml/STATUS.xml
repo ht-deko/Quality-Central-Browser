@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="CODE" fieldtype="i4"/>
+<FIELD attrname="NAME" fieldtype="string" WIDTH="20"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW CODE="10" NAME="Open"></ROW>
+<ROW CODE="20" NAME="Resolved"></ROW>
+<ROW CODE="30" NAME="Closed"></ROW>
+<ROW CODE="40" NAME="Reported"></ROW>
+<ROW CODE="50" NAME="Withdrawn"></ROW>
+<ROW CODE="60" NAME="Automated Report"></ROW>
+<ROW CODE="70" NAME="Pending"></ROW>
+</ROWDATA>
+</DATAPACKET>

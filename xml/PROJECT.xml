@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="CODE" fieldtype="i4"/>
+<FIELD attrname="NAME" fieldtype="string" WIDTH="20"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW CODE="10" NAME="Delphi"></ROW>
+<ROW CODE="15" NAME="C++Builder"></ROW>
+<ROW CODE="30" NAME="CodeCentral"></ROW>
+<ROW CODE="50" NAME="JBuilder"></ROW>
+<ROW CODE="80" NAME="InterBase"></ROW>
+<ROW CODE="200" NAME="Kylix"></ROW>
+<ROW CODE="250" NAME="Optimizeit"></ROW>
+<ROW CODE="310" NAME="JDataStore"></ROW>
+<ROW CODE="320" NAME="C++BuilderX/BC++ 2005"></ROW>
+<ROW CODE="330" NAME="C#Builder"></ROW>
+<ROW CODE="360" NAME="HTML5 Builder"></ROW>
+<ROW CODE="370" NAME="Embarcadero Prism"></ROW>
+<ROW CODE="400" NAME="QualityCentral"></ROW>
+<ROW CODE="10009" NAME="Test project"></ROW>
+<ROW CODE="10022" NAME="EDN"></ROW>
+<ROW CODE="10024" NAME="Conference"></ROW>
+<ROW CODE="10054" NAME="JBuilder 2007"></ROW>
+<ROW CODE="10074" NAME="3rdRail"></ROW>
+<ROW CODE="11012" NAME="DBArtisan"></ROW>
+</ROWDATA>
+</DATAPACKET>

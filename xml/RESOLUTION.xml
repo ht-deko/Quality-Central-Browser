@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="CODE" fieldtype="i4"/>
+<FIELD attrname="NAME" fieldtype="string" WIDTH="20"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW CODE="10" NAME="Fixed"></ROW>
+<ROW CODE="20" NAME="Deferred to Next MS"></ROW>
+<ROW CODE="30" NAME="Cannot Reproduce Bug"></ROW>
+<ROW CODE="40" NAME="As Designed"></ROW>
+<ROW CODE="50" NAME="Duplicate"></ROW>
+<ROW CODE="60" NAME="Test Case Error"></ROW>
+<ROW CODE="70" NAME="Need More Info"></ROW>
+<ROW CODE="80" NAME="Deferred to Next Release"></ROW>
+<ROW CODE="85" NAME="Retest"></ROW>
+<ROW CODE="90" NAME="Checked In"></ROW>
+<ROW CODE="110" NAME="Third Party"></ROW>
+<ROW CODE="150" NAME="Cannot Fix"></ROW>
+<ROW CODE="160" NAME="Defer to Inline"></ROW>
+<ROW CODE="175" NAME="Readme"></ROW>
+<ROW CODE="180" NAME="Feature Removed"></ROW>
+<ROW CODE="190" NAME="Web Update"></ROW>
+<ROW CODE="200" NAME="Won't Do"></ROW>
+<ROW CODE="210" NAME="Inactive"></ROW>
+</ROWDATA>
+</DATAPACKET>

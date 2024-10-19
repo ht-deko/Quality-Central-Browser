@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="CODE" fieldtype="i4"/>
+<FIELD attrname="NAME" fieldtype="string" WIDTH="50"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW CODE="10" NAME="All versions"></ROW>
+<ROW CODE="20" NAME=""></ROW>
+<ROW CODE="30" NAME="Not OS or platform specific"></ROW>
+<ROW CODE="50" NAME="Solaris on SPARC"></ROW>
+<ROW CODE="60" NAME="Windows 95/98/NT 4.0 on Intel"></ROW>
+<ROW CODE="70" NAME="Linux on Intel"></ROW>
+<ROW CODE="420" NAME=""></ROW>
+<ROW CODE="430" NAME="All platforms"></ROW>
+<ROW CODE="460" NAME="RedHat Linux"></ROW>
+<ROW CODE="480" NAME="All Unix platforms"></ROW>
+<ROW CODE="490" NAME="64-bit Windows 2000"></ROW>
+<ROW CODE="500" NAME="64-bit Linux"></ROW>
+<ROW CODE="666" NAME="Java-based client"></ROW>
+<ROW CODE="667" NAME="Web (browser) client"></ROW>
+<ROW CODE="680" NAME="Kylix C++ IDE"></ROW>
+<ROW CODE="690" NAME="Kylix Pascal IDE"></ROW>
+<ROW CODE="760" NAME=""></ROW>
+<ROW CODE="800" NAME="All versions"></ROW>
+<ROW CODE="805" NAME="All versions"></ROW>
+<ROW CODE="900" NAME="32 Bit"></ROW>
+<ROW CODE="910" NAME="64 Bit"></ROW>
+<ROW CODE="990" NAME="All Mac platforms"></ROW>
+<ROW CODE="995" NAME="All Mac platforms"></ROW>
+<ROW CODE="1010" NAME="iOS / Apple mobile OS"></ROW>
+<ROW CODE="1015" NAME="Apple's mobile OS"></ROW>
+<ROW CODE="1030" NAME="Android / Google mobile OS"></ROW>
+<ROW CODE="1035" NAME="mobile OS"></ROW>
+<ROW CODE="10008" NAME="All Linux"></ROW>
+<ROW CODE="10011" NAME=""></ROW>
+</ROWDATA>
+</DATAPACKET>
