@@ -17,7 +17,7 @@ Quality Central のブラウザです。Delphi 12.0 で作られており、Delp
 ## ショートカットキー
 各部のショートカットキーは次の通りです。
 
-![image](https://github.com/user-attachments/assets/74bf9da3-99a7-4f6a-aee4-b8cf3ee74471)
+![image](https://github.com/user-attachments/assets/d9612319-585d-4b68-9016-4219b54a8c15)
 
 ## フィルター
 ラベルやタブをダブルクリックすると、フィルター用の式が挿入されます。
