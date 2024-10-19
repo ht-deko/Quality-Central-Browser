@@ -3,7 +3,7 @@ object frmDataList: TfrmDataList
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsToolWindow
-  Caption = 'QC List'
+  Caption = 'Report List'
   ClientHeight = 640
   ClientWidth = 990
   Color = clBtnFace
