@@ -21,6 +21,7 @@ Quality Central のブラウザです。Delphi 12.0 で作られており、Delp
 
 ## フィルター
 ラベルやタブをダブルクリックすると、フィルター用の式が挿入されます。
+
 ![image](https://github.com/user-attachments/assets/b42122c3-ae7a-4aeb-bf25-d492bc6a51b8)
 
 ★の箇所はルックアップなので、元のコードを知らないと検索できません。元のコードは xml フォルダ内のデータで調べてください。
