@@ -11,7 +11,8 @@ Quality Central のブラウザです。Delphi 12.0 で作られており、Delp
 
 ![image](https://github.com/user-attachments/assets/467362ca-e025-4756-82e0-ea274ac91fbf)
 
-データモジュールの `cdsMain` を右クリックし、QCScraper が吐いた XML ファイルを読み込ませてください。
+データモジュールの `cdsMain` を右クリックし、QCScraper が吐いた XML ファイルを読み込ませてください。</br>
+正常にビルドが完了すると 77MB 程度の実行形式ファイルができると思います。
 
 ## ショートカットキー
 各部のショートカットキーは次の通りです。
