@@ -145,11 +145,13 @@ begin
 
   pcDetail.OnDblClick := PageControlDblClick;
 
-  dmMain.cdsMain.AddIndex('IDX_DEFECT_NO', 'DEFECT_NO', [ixDescending]);
+  var sIndexName := 'IDX_DEFECT_NO';
+  dmMain.cdsMain.AddIndex(sIndexName, 'DEFECT_NO', [ixDescending]);
+  dmMain.cdsMain.IndexName := sIndexName;
+  SetFilter;
+
   dmMain.cdsMain.AfterScroll := cdsMainAfterScroll;
   dmMain.cdsMain.First;
-
-  GotoTop;
 end;
 
 procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
