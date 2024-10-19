@@ -30,6 +30,7 @@ object frmDataList: TfrmDataList
     TitleFont.Height = -13
     TitleFont.Name = #12513#12452#12522#12458
     TitleFont.Style = []
+    OnDrawColumnCell = dbgListDrawColumnCell
     Columns = <
       item
         Expanded = False
