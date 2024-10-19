@@ -3,7 +3,8 @@ program QCBrowser;
 uses
   Vcl.Forms,
   frmuMain in 'frmuMain.pas' {frmMain},
-  dmuMain in 'dmuMain.pas' {dmMain: TDataModule};
+  dmuMain in 'dmuMain.pas' {dmMain: TDataModule},
+  frmuDataList in 'frmuDataList.pas' {frmDataList};
 
 {$R *.res}
 
@@ -12,5 +13,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmMain, dmMain);
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmDataList, frmDataList);
   Application.Run;
 end.

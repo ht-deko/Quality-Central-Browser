@@ -156,21 +156,20 @@ object frmMain: TfrmMain
       ReadOnly = True
       TabOrder = 3
     end
-    object edDEFECT_NO: TDBEdit
+    object edDEFECT_NO: TEdit
       Left = 85
       Top = 8
       Width = 73
       Height = 31
-      DataField = 'DEFECT_NO'
-      DataSource = dmMain.dsMain
       Font.Charset = ANSI_CHARSET
       Font.Color = 2105504
       Font.Height = -15
       Font.Name = #12513#12452#12522#12458
       Font.Style = [fsBold]
       ParentFont = False
-      ReadOnly = True
       TabOrder = 0
+      OnKeyDown = edDEFECT_NOKeyDown
+      OnKeyPress = edKeyPress
     end
     object pnlMain: TPanel
       AlignWithMargins = True
@@ -195,7 +194,6 @@ object frmMain: TfrmMain
       ShowCaption = False
       TabOrder = 4
       OnDblClick = Label_DblClick
-      ExplicitTop = 85
       object lblPROJECT_NAME: TLabel
         Left = 0
         Top = 16
@@ -621,24 +619,25 @@ object frmMain: TfrmMain
     end
     object DBNavigator: TDBNavigator
       AlignWithMargins = True
-      Left = 797
+      Left = 757
       Top = 4
       Width = 160
       Height = 32
       Margins.Left = 4
       Margins.Top = 4
-      Margins.Right = 12
+      Margins.Right = 4
       Margins.Bottom = 4
       DataSource = dmMain.dsMain
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Align = alRight
       TabOrder = 0
+      ExplicitLeft = 797
     end
     object edFilter: TButtonedEdit
       AlignWithMargins = True
       Left = 63
       Top = 7
-      Width = 726
+      Width = 686
       Height = 26
       Margins.Left = 4
       Margins.Top = 7
@@ -652,8 +651,38 @@ object frmMain: TfrmMain
       TabOrder = 1
       TextHint = 'DEFECT_NO=nnnnn'
       OnKeyDown = edFilterKeyDown
-      OnKeyPress = edFilterKeyPress
+      OnKeyPress = edKeyPress
       OnRightButtonClick = edFilterRightButtonClick
+      ExplicitWidth = 726
+    end
+    object bbDataList: TBitBtn
+      AlignWithMargins = True
+      Left = 925
+      Top = 4
+      Width = 32
+      Height = 32
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 12
+      Margins.Bottom = 4
+      Action = alDataList
+      Align = alRight
+      Glyph.Data = {
+        96010000424D9601000000000000760000002800000018000000180000000100
+        04000000000020010000120B0000120B00001000000010000000787878004A5A
+        D7006B78DF007783E000AB4E2100AD5F2000CC731A00FF00FF00EE973300FED8
+        AD00FEDCB700FEE0BE00FEE5C800FEEBD700FEF4E800FEFDFB00777777777777
+        7777777777777777777777777777777777774444444444444444444444474000
+        0000000000093111134740EEE0DDC0CBA0A91111114740FEE0DDD0CBB0A91111
+        1147400000000000000A1111114740FFF0EEE0DDC0BB1111114740FFF0EEE0DD
+        C0CB21111247400000000000000CCAAA994740FFF0FFF0DDE0DDC0BBA04740FF
+        F0FFF0FEE0DDD0CBB04740000000000000000000004740FFF0FFF0FFF0EEE0DC
+        C04740FFF0FFF0FFF0EEE0DDD04740000000000000000000004740FFF0FFF0FF
+        F0FFF0EED04740FFF0FFF0FFF0FFF0EEE0474000000000000000000000474555
+        5555555555555555554768888888888888888888886776666666666666666666
+        6677777777777777777777777777777777777777777777777777}
+      TabOrder = 2
+      ExplicitLeft = 882
     end
   end
   object pnlBorder: TPanel
@@ -676,7 +705,7 @@ object frmMain: TfrmMain
     Top = 340
     Width = 969
     Height = 279
-    ActivePage = tsWorkaround
+    ActivePage = tsDescription
     Align = alClient
     Images = imTabs
     TabOrder = 3
@@ -1448,6 +1477,11 @@ object frmMain: TfrmMain
       Category = 'DB'
       ShortCut = 24654
       OnExecute = acDBExecute
+    end
+    object alDataList: TAction
+      Category = 'DB'
+      ShortCut = 16460
+      OnExecute = alDataListExecute
     end
   end
 end

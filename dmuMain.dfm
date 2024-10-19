@@ -458,6 +458,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     OnCalcFields = cdsMainCalcFields
     Left = 32
@@ -819,6 +820,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     OnCalcFields = cdsNestedCalcFields
     Left = 32
@@ -933,6 +935,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 352
@@ -981,6 +984,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 288
@@ -1016,6 +1020,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 224
@@ -1054,6 +1059,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 160
@@ -1094,6 +1100,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 96
@@ -1127,6 +1134,7 @@ object dmMain: TdmMain
       end>
     IndexDefs = <>
     Params = <>
+    ReadOnly = True
     StoreDefs = True
     Left = 232
     Top = 32

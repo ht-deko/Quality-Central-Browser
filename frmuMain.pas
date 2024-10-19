@@ -41,7 +41,7 @@ type
     edCOMMENT_HEADER: TDBEdit;
     edDATA_TYPE: TDBEdit;
     edDATE_REPORTED: TDBEdit;
-    edDEFECT_NO: TDBEdit;
+    edDEFECT_NO: TEdit;
     edDUPLICATEOF: TDBEdit;
     edFilter: TButtonedEdit;
     edFIRST_NAME: TDBEdit;
@@ -90,12 +90,14 @@ type
     tsSteps: TTabSheet;
     tsWorkaround: TTabSheet;
     Image1: TImage;
+    bbDataList: TBitBtn;
+    alDataList: TAction;
     procedure acFilterExecute(Sender: TObject);
     procedure acGotoReportExecute(Sender: TObject);
     procedure cdsMainAfterScroll(DataSet: TDataSet);
     procedure edFilterKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure edFilterKeyPress(Sender: TObject; var Key: Char);
+    procedure edKeyPress(Sender: TObject; var Key: Char);
     procedure edFilterRightButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Label_DblClick(Sender: TObject);
@@ -103,6 +105,9 @@ type
     procedure tsShow(Sender: TObject);
     procedure Image1Click(Sender: TObject);
     procedure acDBExecute(Sender: TObject);
+    procedure edDEFECT_NOKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure alDataListExecute(Sender: TObject);
   private
     { Private Declaration }
     procedure GotoTop;
@@ -120,7 +125,7 @@ implementation
 {$R *.dfm}
 
 uses
-  dmuMain;
+  dmuMain, frmuDataList;
 
 { TfrmMain }
 
@@ -139,6 +144,8 @@ begin
   lblSHORT_DESCRIPTION.Height := edSHORT_DESCRIPTION.Height;
 
   pcDetail.OnDblClick := PageControlDblClick;
+
+  dmMain.cdsMain.AddIndex('IDX_DEFECT_NO', 'DEFECT_NO', [ixDescending]);
   dmMain.cdsMain.AfterScroll := cdsMainAfterScroll;
   dmMain.cdsMain.First;
 
@@ -153,6 +160,7 @@ procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
     edSHORT_DESCRIPTION.Color := c;
   end;
 begin
+  edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
   case DataSet.Fields[MIDX_STATUS].AsInteger of
     10: ChangeColor($00D2FFD2);
     20: ChangeColor($00FCC7C2);
@@ -183,6 +191,11 @@ begin
   end;
 end;
 
+procedure TfrmMain.alDataListExecute(Sender: TObject);
+begin
+  frmDataList.Show;
+end;
+
 procedure TfrmMain.acDBExecute(Sender: TObject);
 begin
   case (Sender as TAction).Tag of
@@ -198,6 +211,20 @@ begin
   edFilter.SetFocus;
 end;
 
+procedure TfrmMain.edDEFECT_NOKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key  of
+    VK_RETURN, VK_TAB:
+      begin
+        edFilter.Text := 'DEFECT_NO=' + edDEFECT_NO.Text;
+        SetFilter;
+        edFilter.SetFocus;
+        Key := 0;
+      end;
+  end;
+end;
+
 procedure TfrmMain.edFilterKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -210,7 +237,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.edFilterKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmMain.edKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = ^M then
     Key := #$0000;
