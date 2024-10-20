@@ -26,6 +26,25 @@ Quality Central のブラウザです。Delphi 12.0 で作られており、Delp
 
 ★の箇所はルックアップなので、元のコードを知らないと検索できません。元のコードは xml フォルダ内のデータで調べてください。
 
+## QCWIN: プロトコル
+管理者権限で次のコマンドを実行すると、QCBrowser.exe が QCWIN: プロトコルに関連付けられます。 
+
+```
+QCBrowser.exe /RegisterProtocol
+```
+
+解除は `/UnregisterProtocol` です。 
+
+```
+QCBrowser.exe /UnregisterProtocol
+```
+
+うまく関連付けられたら、以下のリンクの `QCWIN:Defect_No=xxxxx` となっている箇所をクリックすると当該レポートが QCBrowser で表示されると思います。
+
+ - [RTL のバグによる文字コード関連の問題を回避するには？ (ht-deko.com)](https://ht-deko.com/tech051.html)
+
 **See also:**
 
  - [【Delphi】Quality Central ブラウザを作った話 (Qiita)](https://qiita.com/ht_deko/items/ab9e13361ae31c4089e2)
+
+
