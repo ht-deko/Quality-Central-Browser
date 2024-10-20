@@ -52,6 +52,7 @@ QCBrowser.exe /UnregisterProtocol
 Enabled=0 // 1 で有効
 URL=https://api-free.deepl.com // 無償版
 ;URL=https://api.deepl.com // 有償版
+ContentType=application/x-www-form-urlencoded
 Resource=/v2/translate
 AuthKey= // 取得した DeepL の API キー
 Language=JA
