@@ -8,7 +8,7 @@ uses
   Vcl.ActnList, Vcl.Controls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBCtrls, Vcl.DBGrids, Vcl.DBCGrids, Vcl.Forms,
   Vcl.Dialogs, Vcl.Mask, Vcl.Graphics, Vcl.Imaging.pngimage, Vcl.ImgList,
-  System.Win.Registry;
+  System.Win.Registry, System.NetEncoding;
 
 type
   { TPageControl (Interposer Class) }
@@ -186,7 +186,7 @@ begin
     else if FindCmdLineSwitch('UnregisterProtocol', ['-', '/'], True) then
       RegisterProtocol(False)
     else
-      edFilter.Text := StringReplace(ParamStr(1), 'QCWIN:', '', [rfIgnoreCase]);
+      edFilter.Text := TNetEncoding.URL.Decode(StringReplace(ParamStr(1), 'QCWIN:', '', [rfIgnoreCase]));
   end;
   SetFilter;
 
