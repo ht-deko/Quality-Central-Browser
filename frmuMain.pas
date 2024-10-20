@@ -302,9 +302,9 @@ var
       Request.Resource := TranslateAPI.Resource;
 
       Request.Params.Clear;
-      Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey );
+      Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey);
       Request.Params.AddItem('target_lang' , TranslateAPI.Language);
-      Request.Params.AddItem('text'        , aText                );
+      Request.Params.AddItem('text'        , aText);
       Request.Execute;
 
       if (Request.Response.StatusCode = 200) and
@@ -329,30 +329,30 @@ begin
   if not (Self.ActiveControl is TDBMemo) then
     Exit;
   DBM := Self.ActiveControl as TDBMemo;
+  if DBM.SelLength = 0 then
+    Text := DBM.Text
+  else
+    Text := DBM.SelText;
   case DBM.Tag of
     MT_MAIN:
       begin
         case (DBM.Parent as TTabSheet).Tag of
+          TT_ORIGINAL:
+            begin
+              DBM := Self.ActiveControl as TDBMemo;
+              DBM.DataSource := nil;
+              DBM.Text := Translate(Text);
+              (DBM.Parent as TTabSheet).Tag := TT_TRANSLATED;
+            end;
           TT_TRANSLATED:
             begin
               DBM.DataSource := dmMain.dsMain;
               (DBM.Parent as TTabSheet).Tag := TT_ORIGINAL;
             end;
-          TT_ORIGINAL:
-            begin
-              DBM := Self.ActiveControl as TDBMemo;
-              Text := DBM.Text;
-              DBM.DataSource := nil;
-              DBM.Text := Translate(Text);
-              (DBM.Parent as TTabSheet).Tag := TT_TRANSLATED;
-            end;
         end;
       end;
     MT_NESTED: 
-      begin
-        Text := DBM.Text;
-        ShowMessage(Translate(Text));
-      end;
+      ShowMessage(Translate(Text));
   end;
 end;
 
