@@ -26,6 +26,7 @@ type
   record
     Enabled: Boolean;
     URL: string;
+    ContentType: string;
     Resource: string;
     AuthKey: string;
     Language: string;
@@ -162,11 +163,12 @@ begin
     imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
     with TranslateAPI do
     begin
-      Enabled  := Ini.ReadBool  (SEC_TRANS, 'Enabled' , False);
-      URL      := Ini.ReadString(SEC_TRANS, 'URL'     , '');
-      Resource := Ini.ReadString(SEC_TRANS, 'Resource', '');
-      AuthKey  := Ini.ReadString(SEC_TRANS, 'AuthKey' , '');
-      Language := Ini.ReadString(SEC_TRANS, 'Language', '');
+      Enabled     := Ini.ReadBool  (SEC_TRANS, 'Enabled'    , False);
+      URL         := Ini.ReadString(SEC_TRANS, 'URL'        , '');
+      ContentType := Ini.ReadString(SEC_TRANS, 'ContentType', 'application/x-www-form-urlencoded');
+      Resource    := Ini.ReadString(SEC_TRANS, 'Resource'   , '');
+      AuthKey     := Ini.ReadString(SEC_TRANS, 'AuthKey'    , '');
+      Language    := Ini.ReadString(SEC_TRANS, 'Language'   , '');
       if AuthKey = '' then
         Enabled := False;
     end;
@@ -299,7 +301,7 @@ var
     try
       Request.Client := TRESTClient.Create(Request);
       Request.Client.BaseURL := TranslateAPI.URL;
-      Request.Client.ContentType := 'application/x-www-form-urlencoded';
+      Request.Client.ContentType := TranslateAPI.ContentType;
       Request.Response := TRESTResponse.Create(Request);
       Request.Resource := TranslateAPI.Resource;
       Request.Params.Clear;
