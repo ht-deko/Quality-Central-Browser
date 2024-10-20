@@ -152,19 +152,21 @@ const
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 const
-  SECTION = 'TranslateAPI';
+  SEC_MAIN  = 'SYSTEM';
+  SEC_TRANS = 'TranslateAPI';
 var
   Ini: TMemIniFile;
 begin
   Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
   try
+    imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
     with TranslateAPI do
     begin
-      Enabled  := Ini.ReadBool  (SECTION, 'Enabled' , False);
-      URL      := Ini.ReadString(SECTION, 'URL'     , '');
-      Resource := Ini.ReadString(SECTION, 'Resource', '');
-      AuthKey  := Ini.ReadString(SECTION, 'AuthKey' , '');
-      Language := Ini.ReadString(SECTION, 'Language', '');
+      Enabled  := Ini.ReadBool  (SEC_TRANS, 'Enabled' , False);
+      URL      := Ini.ReadString(SEC_TRANS, 'URL'     , '');
+      Resource := Ini.ReadString(SEC_TRANS, 'Resource', '');
+      AuthKey  := Ini.ReadString(SEC_TRANS, 'AuthKey' , '');
+      Language := Ini.ReadString(SEC_TRANS, 'Language', '');
       if AuthKey = '' then
         Enabled := False;
     end;
@@ -300,13 +302,12 @@ var
       Request.Client.ContentType := 'application/x-www-form-urlencoded';
       Request.Response := TRESTResponse.Create(Request);
       Request.Resource := TranslateAPI.Resource;
-
       Request.Params.Clear;
       Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey);
       Request.Params.AddItem('target_lang' , TranslateAPI.Language);
-      Request.Params.AddItem('text'        , aText);
+      aText := TNetEncoding.URL.EncodeForm(aText);
+      Request.Params.AddItem('text'        , aText, pkGETorPOST, [poDoNotEncode]);
       Request.Execute;
-
       if (Request.Response.StatusCode = 200) and
          (Request.Response.Content.Length > 70) then
       begin
@@ -322,7 +323,6 @@ var
       Request.Free;
     end;
   end;
-  
 begin
   if not TranslateAPI.Enabled then
     Exit;
