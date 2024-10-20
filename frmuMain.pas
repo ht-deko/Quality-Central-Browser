@@ -148,6 +148,9 @@ begin
   var sIndexName := 'IDX_DEFECT_NO';
   dmMain.cdsMain.AddIndex(sIndexName, 'DEFECT_NO', [ixDescending]);
   dmMain.cdsMain.IndexName := sIndexName;
+
+  if ParamCount > 0 then
+    edFilter.Text := StringReplace(ParamStr(1), 'QCWIN:', '', [rfIgnoreCase]);
   SetFilter;
 
   dmMain.cdsMain.AfterScroll := cdsMainAfterScroll;
