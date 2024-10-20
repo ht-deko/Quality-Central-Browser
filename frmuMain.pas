@@ -7,7 +7,8 @@ uses
   System.ImageList, Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Data.DB,
   Vcl.ActnList, Vcl.Controls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.Buttons, Vcl.Grids, Vcl.DBCtrls, Vcl.DBGrids, Vcl.DBCGrids, Vcl.Forms,
-  Vcl.Dialogs, Vcl.Mask, Vcl.Graphics, Vcl.Imaging.pngimage, Vcl.ImgList;
+  Vcl.Dialogs, Vcl.Mask, Vcl.Graphics, Vcl.Imaging.pngimage, Vcl.ImgList,
+  System.Win.Registry;
 
 type
   { TPageControl (Interposer Class) }
@@ -130,6 +131,35 @@ uses
 { TfrmMain }
 
 procedure TfrmMain.FormShow(Sender: TObject);
+  procedure RegisterProtocol(Regist: Boolean);
+  var
+    Reg: TRegistry;
+  begin
+    Reg := TRegistry.Create;
+    try
+      Reg.RootKey := HKEY_CLASSES_ROOT;
+      if Regist then
+      begin
+        Reg.OpenKey('\QCWIN', True);
+        Reg.WriteString('', 'URL:QCWIN Protocol');
+        Reg.WriteString('URL Protocol', '');
+        Reg.CloseKey;
+        Reg.OpenKey('\QCWIN\shell', True);
+        Reg.WriteString('', 'open');
+        Reg.CloseKey;
+        Reg.OpenKey('\QCWIN\shell\open\command', True);
+        Reg.WriteString('', ParamStr(0) + ' %1' );
+        Reg.CloseKey;
+      end
+      else
+      begin
+        Reg.DeleteKey('\QCWIN');
+      end;
+    finally
+      Reg.Free;
+    end;
+    Application.Terminate;
+  end;
 begin
   onShow := nil;
 
@@ -150,7 +180,14 @@ begin
   dmMain.cdsMain.IndexName := sIndexName;
 
   if ParamCount > 0 then
-    edFilter.Text := StringReplace(ParamStr(1), 'QCWIN:', '', [rfIgnoreCase]);
+  begin
+    if FindCmdLineSwitch('RegisterProtocol', ['-', '/'], True) then
+      RegisterProtocol(True)
+    else if FindCmdLineSwitch('UnregisterProtocol', ['-', '/'], True) then
+      RegisterProtocol(False)
+    else
+      edFilter.Text := StringReplace(ParamStr(1), 'QCWIN:', '', [rfIgnoreCase]);
+  end;
   SetFilter;
 
   dmMain.cdsMain.AfterScroll := cdsMainAfterScroll;
