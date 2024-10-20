@@ -18,6 +18,7 @@ object frmMain: TfrmMain
   Position = poScreenCenter
   Scaled = False
   ShowHint = True
+  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 23
   object pnlTop: TPanel
@@ -878,6 +879,7 @@ object frmMain: TfrmMain
           end
         end
         object dbmComment: TDBMemo
+          Tag = 1
           AlignWithMargins = True
           Left = 1
           Top = 26
@@ -1482,6 +1484,12 @@ object frmMain: TfrmMain
       Category = 'DB'
       ShortCut = 16460
       OnExecute = alDataListExecute
+    end
+    object acTranslate: TAction
+      Category = 'UI'
+      Caption = 'Translate'
+      ShortCut = 16468
+      OnExecute = acTranslateExecute
     end
   end
 end
