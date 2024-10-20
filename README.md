@@ -43,8 +43,25 @@ QCBrowser.exe /UnregisterProtocol
 
  - [RTL のバグによる文字コード関連の問題を回避するには？ (ht-deko.com)](https://ht-deko.com/tech051.html)
 
+## DeepL 翻訳
+
+`QCBrowser.exe` と同じ場所に、必要な項目を埋めた `QCBrowser.env` を置くと、下部のタブ内のメモフィールドを〔Ctrl〕+〔T〕で翻訳します (トグル)。
+
+```
+[TranslateAPI]
+Enabled=0 // 1 で有効
+URL=https://api-free.deepl.com // 無償版
+;URL=https://api.deepl.com // 有償版
+Resource=/v2/translate
+AuthKey= // 取得した DeepL の API キー
+Language=JA
+```
+
+[Comments] タブのコメントはネストされたレコードなので、ポップアップで翻訳されます。
+
 **See also:**
 
  - [【Delphi】Quality Central ブラウザを作った話 (Qiita)](https://qiita.com/ht_deko/items/ab9e13361ae31c4089e2)
+ - [DeepL API (DeepL)](https://www.deepl.com/ja/pro-api)
 
 
