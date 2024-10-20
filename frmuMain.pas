@@ -304,7 +304,7 @@ var
       Request.Params.Clear;
       Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey );
       Request.Params.AddItem('target_lang' , TranslateAPI.Language);
-      Request.Params.AddItem('text'        , Text                 );
+      Request.Params.AddItem('text'        , aText                );
       Request.Execute;
 
       if (Request.Response.StatusCode = 200) and
