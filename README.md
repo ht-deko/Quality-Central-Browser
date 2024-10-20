@@ -59,6 +59,8 @@ Language=JA
 
 [Comments] タブのコメントはネストされたレコードなので、ポップアップで翻訳されます。
 
+※うまく翻訳されない時は文字列を選択してから〔Ctrl〕+〔T〕を押してみてください。部分的に翻訳します。
+
 **See also:**
 
  - [【Delphi】Quality Central ブラウザを作った話 (Qiita)](https://qiita.com/ht_deko/items/ab9e13361ae31c4089e2)
