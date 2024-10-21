@@ -3,13 +3,12 @@ unit frmuMain;
 interface
 
 uses
-  System.SysUtils, System.Classes, System.Actions, System.Math,
-  System.ImageList, Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Data.DB,
-  Vcl.ActnList, Vcl.Controls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBCtrls, Vcl.DBGrids, Vcl.DBCGrids, Vcl.Forms,
-  Vcl.Dialogs, Vcl.Mask, Vcl.Graphics, Vcl.Imaging.pngimage, Vcl.ImgList,
-  System.Win.Registry, System.NetEncoding, System.IniFiles, REST.Types, 
-  REST.Client, System.JSON.Readers, System.JSON.Builders, System.Rtti;
+  System.Actions, System.Classes, System.ImageList, System.IniFiles, System.JSON.Builders,
+  System.JSON.Readers, System.Math, System.NetEncoding, System.Rtti, System.SysUtils,
+  System.Win.Registry, Winapi.Messages, Winapi.ShellAPI, Winapi.Windows, Data.DB,
+  REST.Client, REST.Types, Vcl.ActnList, Vcl.Buttons, Vcl.ComCtrls, Vcl.Controls,
+  Vcl.DBCGrids, Vcl.DBCtrls, Vcl.DBGrids, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Forms,
+  Vcl.Graphics, Vcl.Grids, Vcl.Imaging.pngimage, Vcl.ImgList, Vcl.Mask, Vcl.StdCtrls;
 
 const
   MT_MAIN = 0;
@@ -32,16 +31,6 @@ const
 type
   TTabRange = TI_DESCRIPTION..TI_COMMENTS;
 
-  { TPageControl (Interposer Class) }
-  TPageControl = class(Vcl.ComCtrls.TPageControl)
-  public
-    { Private Declaration }
-    constructor Create(AOwner: TComponent); override;
-  published
-    { Published Declaration }
-    property OnDblClick;
-  end;
-
   TTranslateAPI =
   record
     Enabled: Boolean;
@@ -50,6 +39,16 @@ type
     Resource: string;
     AuthKey: string;
     Language: string;
+  end;
+
+  { TPageControl (Interposer Class) }
+  TPageControl = class(Vcl.ComCtrls.TPageControl)
+  public
+    { Private Declaration }
+    constructor Create(AOwner: TComponent); override;
+  published
+    { Published Declaration }
+    property OnDblClick;
   end;
 
   { TfrmMain }
@@ -172,8 +171,6 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 const
   SEC_MAIN  = 'SYSTEM';
   SEC_TRANS = 'TranslateAPI';
-var
-  Ini: TMemIniFile;
 begin
   dbmArr[TI_DESCRIPTION] := dbmDescription;
   dbmArr[TI_STEPS      ] := dbmSteps;
@@ -181,7 +178,7 @@ begin
   dbmArr[TI_ATTACHMENT ] := dbmAttachment;
   dbmArr[TI_COMMENTS   ] := dbmComment;
 
-  Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
+  var Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
   try
     imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
     with TranslateAPI do
@@ -202,10 +199,8 @@ end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
   procedure RegisterProtocol(Regist: Boolean);
-  var
-    Reg: TRegistry;
   begin
-    Reg := TRegistry.Create;
+    var Reg := TRegistry.Create;
     try
       Reg.RootKey := HKEY_CLASSES_ROOT;
       if Regist then
@@ -280,7 +275,10 @@ procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
     edSHORT_DESCRIPTION.Color := c;
   end; { ChangeColor }
 begin
-  edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
+  if DataSet.IsEmpty then
+    edDEFECT_NO.Text := ''
+  else
+    edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
   ChangeColor(GetStatusColor(DataSet.Fields[MIDX_STATUS].AsInteger, clWindow));
   for var i := Low(TTabRange) to High(TTabRange) do
   begin
@@ -325,6 +323,7 @@ var
     result := '';
     var Request := TRESTRequest.Create(nil);
     try
+      Request.Method := rmPOST;
       Request.Client := TRESTClient.Create(Request);
       Request.Client.BaseURL := TranslateAPI.URL;
       Request.Client.ContentType := TranslateAPI.ContentType;
@@ -336,7 +335,7 @@ var
       aText := TNetEncoding.URL.EncodeForm(aText);
       Request.Params.AddItem('text'        , aText, pkGETorPOST, [poDoNotEncode]);
       Request.Execute;
-      if (Request.Response.StatusCode = 200) and
+      if (Request.Response.StatusCode = 200) and 
          (Request.Response.Content.Length > 70) then
       begin
         var Iterator := TJSONIterator.Create(Request.Response.JSONReader);

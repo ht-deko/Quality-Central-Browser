@@ -148,6 +148,9 @@ const
   SIDX_PUBLISH = 7;
   SIDX_COMMENT_HEADER = 8;
 
+  SEC_MAIN  = 'SYSTEM';
+  SEC_TRANS = 'TranslateAPI';
+
 var
   dmMain: TdmMain;
 
