@@ -710,6 +710,7 @@ object frmMain: TfrmMain
     Align = alClient
     Images = imTabs
     TabOrder = 3
+    OnChange = pcDetailChange
     object tsDescription: TTabSheet
       Caption = '&Description'
       OnShow = tsShow

@@ -11,7 +11,27 @@ uses
   System.Win.Registry, System.NetEncoding, System.IniFiles, REST.Types, 
   REST.Client, System.JSON.Readers, System.JSON.Builders, System.Rtti;
 
+const
+  MT_MAIN = 0;
+  MT_NESTED = 1;
+
+  TT_ORIGINAL = 0;
+  TT_TRANSLATED = 1;
+
+  BI_FIRST = 0;
+  BI_PREV = 1;
+  BI_NEXT = 2;
+  BI_LAST = 3;
+
+  TI_DESCRIPTION = 0;
+  TI_STEPS = 1;
+  TI_WORKAROUND = 2;
+  TI_ATTACHMENT = 3;
+  TI_COMMENTS = 4;
+  
 type
+  TTabRange = TI_DESCRIPTION..TI_COMMENTS;
+
   { TPageControl (Interposer Class) }
   TPageControl = class(Vcl.ComCtrls.TPageControl)
   public
@@ -123,12 +143,15 @@ type
     procedure alDataListExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure acTranslateExecute(Sender: TObject);
+    procedure pcDetailChange(Sender: TObject);
   private
     { Private Declaration }
+    dbmArr: array [TTabRange] of TDBMemo;
     TranslateAPI: TTranslateAPI;
     procedure GotoTop;
     procedure SetFilterText(s: string);
     procedure SetFilter;
+    procedure SetOriginal(TabIdx: TTabRange);
   public
     { Public Declaration }
   end;
@@ -143,12 +166,6 @@ implementation
 uses
   dmuMain, frmuDataList;
 
-const
-  MT_MAIN = 0;
-  MT_NESTED = 1;
-  TT_ORIGINAL = 0;
-  TT_TRANSLATED = 1;
-  
 { TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -158,6 +175,14 @@ const
 var
   Ini: TMemIniFile;
 begin
+  // DBMemo array
+  dbmArr[TI_DESCRIPTION] := dbmDescription;
+  dbmArr[TI_STEPS      ] := dbmSteps;
+  dbmArr[TI_WORKAROUND ] := dbmWorkaround;
+  dbmArr[TI_ATTACHMENT ] := dbmAttachment;
+  dbmArr[TI_COMMENTS   ] := dbmComment;
+
+  // Settings
   Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
   try
     imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
@@ -241,38 +266,42 @@ begin
   dmMain.cdsMain.First;
 end;
 
+procedure TfrmMain.SetOriginal(TabIdx: TTabRange);
+begin
+  if TabIdx = TI_COMMENTS then
+    Exit;
+  pcDetail.Pages[TabIdx].Tag := TT_ORIGINAL;
+  dbmArr[TabIdx].DataSource := dmMain.dsMain;
+end;
+
 procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
   procedure ChangeColor(c: TColor);
   begin
-    edDEFECT_NO.Color         := c;
-    edSTATUS_NAME.Color       := c;
+    edDEFECT_NO.Color := c;
+    edSTATUS_NAME.Color := c;
     edSHORT_DESCRIPTION.Color := c;
-  end;
-  procedure ChangeIcon(ts: TTabSheet; aEnabled: Boolean);
-  begin
-    ts.ImageIndex := ts.PageIndex * 2 + Ord(aEnabled);
-  end;
-  procedure SetOriginal(dbm: TDBMemo);
-  begin
-    (dbm.Parent as TTabSheet).Tag := TT_ORIGINAL;
-    dbm.DataSource := dmMain.dsMain;
   end;
 begin
   edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
-
   ChangeColor(GetStatusColor(DataSet.Fields[MIDX_STATUS].AsInteger, clWindow));
-
-  ChangeIcon(tsDescription, DataSet.Fields[MIDX_DESCRIPTION].AsString <> '');
-  ChangeIcon(tsSteps      , DataSet.Fields[MIDX_STEPS      ].AsString <> '');
-  ChangeIcon(tsWorkaround , DataSet.Fields[MIDX_WORKAROUND ].AsString <> '');
-  ChangeIcon(tsAttachment , DataSet.Fields[MIDX_ATTACHMENT ].AsString <> '');
-  ChangeIcon(tsComments   , dmMain.cdsNested.RecordCount > 0               );
-
-  SetOriginal(dbmDescription);
-  SetOriginal(dbmSteps);
-  SetOriginal(dbmWorkaround);
-  SetOriginal(dbmAttachment);
-
+  for var i := Low(TTabRange) to High(TTabRange) do
+  begin
+    var Flg := False;
+    case i of
+      TI_DESCRIPTION:
+        Flg := DataSet.Fields[MIDX_DESCRIPTION].AsString <> '';
+      TI_STEPS:
+        Flg := DataSet.Fields[MIDX_STEPS      ].AsString <> '';
+      TI_WORKAROUND:
+        Flg := DataSet.Fields[MIDX_WORKAROUND ].AsString <> '';
+      TI_ATTACHMENT:
+        Flg := DataSet.Fields[MIDX_ATTACHMENT ].AsString <> '';
+      TI_COMMENTS:
+        Flg := dmMain.cdsNested.RecordCount > 0;
+    end;
+    pcDetail.Pages[i].ImageIndex := pcDetail.Pages[i].PageIndex * 2 + Ord(Flg);
+    SetOriginal(i);
+  end;  
   GotoTop;
 end;
 
@@ -366,10 +395,14 @@ end;
 procedure TfrmMain.acDBExecute(Sender: TObject);
 begin
   case (Sender as TAction).Tag of
-    0: dmMain.cdsMain.First;
-    1: dmMain.cdsMain.Prior;
-    2: dmMain.cdsMain.Next;
-    3: dmMain.cdsMain.Last;
+    BI_FIRST: 
+      dmMain.cdsMain.First;
+    BI_PREV: 
+      dmMain.cdsMain.Prior;
+    BI_NEXT: 
+      dmMain.cdsMain.Next;
+    BI_LAST: 
+      dmMain.cdsMain.Last;
   end;
 end;
 
@@ -417,12 +450,18 @@ end;
 
 procedure TfrmMain.PageControlDblClick(Sender: TObject);
 begin
-  case (Sender as TPageControl).ActivePageIndex of
-    0: SetFilterText('DESCRIPTION');
-    1: SetFilterText('STEPS');
-    2: SetFilterText('WORKAROUND');
-    3: SetFilterText('ATTACHMENT');
-    4: ;
+  var Idx := (Sender as TPageControl).ActivePageIndex;
+  if Idx <> TI_COMMENTS then
+    SetFilterText(dbmArr[Idx].Field.FieldName);
+end;
+
+procedure TfrmMain.pcDetailChange(Sender: TObject);
+begin
+  for var i:=0 to pcDetail.PageCount-1 do
+  begin
+    if i = pcDetail.ActivePageIndex then
+      Continue;
+    SetOriginal(i);  
   end;
 end;
 
@@ -433,7 +472,7 @@ end;
 
 procedure TfrmMain.GotoTop;
 begin
-  pcDetail.ActivePageIndex := 0;
+  pcDetail.ActivePageIndex := TI_DESCRIPTION;
 end;
 
 procedure TfrmMain.imgInternetArchiveClick(Sender: TObject);
@@ -470,12 +509,12 @@ end;
 
 procedure TfrmMain.tsShow(Sender: TObject);
 begin
-  case (Sender as TTabSheet).PageIndex of
-    0: dbmDescription.SetFocus;
-    1: dbmSteps.SetFocus;
-    2: dbmWorkaround.SetFocus;
-    3: dbmAttachment.SetFocus;
-    4: dbcgComment.SetFocus;
+  var Idx := (Sender as TTabSheet).PageIndex; 
+  case Idx of
+    TI_DESCRIPTION..TI_ATTACHMENT: 
+      dbmArr[Idx].SetFocus;
+    TI_COMMENTS: 
+      dbcgComment.SetFocus;
   end;
 end;
 
