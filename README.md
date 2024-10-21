@@ -64,7 +64,10 @@ Language=JA                                   // 翻訳先の言語
 
 **See also:**
 
- - [【Delphi】Quality Central ブラウザを作った話 (Qiita)](https://qiita.com/ht_deko/items/ab9e13361ae31c4089e2)
  - [DeepL API (DeepL)](https://www.deepl.com/ja/pro-api)
+ - [DeepL API Free (DeepL Support)](https://support.deepl.com/hc/ja/articles/360021200939-DeepL-API-Free)
 
+## その他
+Qiita にも記事があります。
 
+ - [【Delphi】Quality Central ブラウザを作った話 (Qiita)](https://qiita.com/ht_deko/items/ab9e13361ae31c4089e2)
