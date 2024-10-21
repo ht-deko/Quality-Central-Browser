@@ -175,14 +175,12 @@ const
 var
   Ini: TMemIniFile;
 begin
-  // DBMemo array
   dbmArr[TI_DESCRIPTION] := dbmDescription;
   dbmArr[TI_STEPS      ] := dbmSteps;
   dbmArr[TI_WORKAROUND ] := dbmWorkaround;
   dbmArr[TI_ATTACHMENT ] := dbmAttachment;
   dbmArr[TI_COMMENTS   ] := dbmComment;
 
-  // Settings
   Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
   try
     imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
@@ -231,7 +229,7 @@ procedure TfrmMain.FormShow(Sender: TObject);
       Reg.Free;
     end;
     Application.Terminate;
-  end;
+  end; { RegisterProtocol }
 begin
   onShow := nil;
 
@@ -280,7 +278,7 @@ procedure TfrmMain.cdsMainAfterScroll(DataSet: TDataSet);
     edDEFECT_NO.Color := c;
     edSTATUS_NAME.Color := c;
     edSHORT_DESCRIPTION.Color := c;
-  end;
+  end; { ChangeColor }
 begin
   edDEFECT_NO.Text := DataSet.Fields[MIDX_DEFECT_NO].AsInteger.ToString;
   ChangeColor(GetStatusColor(DataSet.Fields[MIDX_STATUS].AsInteger, clWindow));
@@ -306,9 +304,8 @@ begin
 end;
 
 procedure TfrmMain.acGotoReportExecute(Sender: TObject);
-var
-  DEFECT_NO: string;
 begin
+  var DEFECT_NO: string;
   try
     if not InputQuery('Go To Report', 'Report #:', DEFECT_NO) then
       Exit;
@@ -353,7 +350,7 @@ var
     finally
       Request.Free;
     end;
-  end;
+  end; { Translate }
 begin
   if not TranslateAPI.Enabled then
     Exit;
