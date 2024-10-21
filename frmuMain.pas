@@ -15,7 +15,7 @@ const
   MT_MAIN = 0;
   MT_NESTED = 1;
 
-  TT_ORIGINAL = 0;
+  TT_DATASOURCE = 0;
   TT_TRANSLATED = 1;
 
   BI_FIRST = 0;
@@ -148,10 +148,10 @@ type
     { Private Declaration }
     dbmArr: array [TTabRange] of TDBMemo;
     TranslateAPI: TTranslateAPI;
+    procedure AssignDataSource(TabIdx: TTabRange);
     procedure GotoTop;
     procedure SetFilterText(s: string);
     procedure SetFilter;
-    procedure SetOriginal(TabIdx: TTabRange);
   public
     { Public Declaration }
   end;
@@ -266,11 +266,11 @@ begin
   dmMain.cdsMain.First;
 end;
 
-procedure TfrmMain.SetOriginal(TabIdx: TTabRange);
+procedure TfrmMain.AssignDataSource(TabIdx: TTabRange);
 begin
   if TabIdx = TI_COMMENTS then
     Exit;
-  pcDetail.Pages[TabIdx].Tag := TT_ORIGINAL;
+  pcDetail.Pages[TabIdx].Tag := TT_DATASOURCE;
   dbmArr[TabIdx].DataSource := dmMain.dsMain;
 end;
 
@@ -300,7 +300,7 @@ begin
         Flg := dmMain.cdsNested.RecordCount > 0;
     end;
     pcDetail.Pages[i].ImageIndex := pcDetail.Pages[i].PageIndex * 2 + Ord(Flg);
-    SetOriginal(i);
+    AssignDataSource(i);
   end;  
   GotoTop;
 end;
@@ -368,7 +368,7 @@ begin
     MT_MAIN:
       begin
         case (DBM.Parent as TTabSheet).Tag of
-          TT_ORIGINAL:
+          TT_DATASOURCE:
             begin
               DBM := Self.ActiveControl as TDBMemo;
               DBM.DataSource := nil;
@@ -378,7 +378,7 @@ begin
           TT_TRANSLATED:
             begin
               DBM.DataSource := dmMain.dsMain;
-              (DBM.Parent as TTabSheet).Tag := TT_ORIGINAL;
+              (DBM.Parent as TTabSheet).Tag := TT_DATASOURCE;
             end;
         end;
       end;
@@ -461,7 +461,7 @@ begin
   begin
     if i = pcDetail.ActivePageIndex then
       Continue;
-    SetOriginal(i);  
+    AssignDataSource(i);  
   end;
 end;
 
