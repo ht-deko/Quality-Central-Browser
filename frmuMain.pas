@@ -31,13 +31,16 @@ const
 type
   TTabRange = TI_DESCRIPTION..TI_COMMENTS;
 
+  TTranslateAPIType = (tatUnknown, tatDeepL, tatGoogle);
   TTranslateAPI =
   record
+    APIType: TTranslateAPIType;
     Enabled: Boolean;
     URL: string;
     ContentType: string;
     Resource: string;
     AuthKey: string;
+    APIKey: string;
     Language: string;
   end;
 
@@ -168,9 +171,6 @@ uses
 { TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
-const
-  SEC_MAIN  = 'SYSTEM';
-  SEC_TRANS = 'TranslateAPI';
 begin
   dbmArr[TI_DESCRIPTION] := dbmDescription;
   dbmArr[TI_STEPS      ] := dbmSteps;
@@ -183,13 +183,15 @@ begin
     imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
     with TranslateAPI do
     begin
+      APIType     := TTranslateAPIType(Ini.ReadInteger(SEC_TRANS, 'APIType', Ord(tatDeepL)));
       Enabled     := Ini.ReadBool  (SEC_TRANS, 'Enabled'    , False);
       URL         := Ini.ReadString(SEC_TRANS, 'URL'        , '');
       ContentType := Ini.ReadString(SEC_TRANS, 'ContentType', 'application/x-www-form-urlencoded');
       Resource    := Ini.ReadString(SEC_TRANS, 'Resource'   , '');
       AuthKey     := Ini.ReadString(SEC_TRANS, 'AuthKey'    , '');
+      APIKey      := Ini.ReadString(SEC_TRANS, 'APIKey'     , '');
       Language    := Ini.ReadString(SEC_TRANS, 'Language'   , '');
-      if AuthKey = '' then
+      if APIType = tatUnknown then
         Enabled := False;
     end;
   finally
@@ -315,9 +317,6 @@ begin
 end;
 
 procedure TfrmMain.acTranslateExecute(Sender: TObject);
-var
-  DBM: TDBMemo;
-  Text: string;
   function Translate(aText: string): string;
   begin
     result := '';
@@ -329,22 +328,48 @@ var
       Request.Client.ContentType := TranslateAPI.ContentType;
       Request.Response := TRESTResponse.Create(Request);
       Request.Resource := TranslateAPI.Resource;
-      Request.Params.Clear;
-      Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey);
-      Request.Params.AddItem('target_lang' , TranslateAPI.Language);
-      aText := TNetEncoding.URL.EncodeForm(aText);
-      Request.Params.AddItem('text'        , aText, pkGETorPOST, [poDoNotEncode]);
-      Request.Execute;
-      if (Request.Response.StatusCode = 200) and 
-         (Request.Response.Content.Length > 70) then
-      begin
-        var Iterator := TJSONIterator.Create(Request.Response.JSONReader);
-        try
-          if Iterator.Find('translations[0].text') then
-            result := Iterator.AsString;
-        finally
-          Iterator.Free;
-        end;
+      case TranslateAPI.APIType of
+        tatDeepL: 
+          begin
+            Request.Params.Clear;
+            Request.Params.AddItem('auth_key'    , TranslateAPI.AuthKey);
+            Request.Params.AddItem('target_lang' , TranslateAPI.Language);
+            aText := TNetEncoding.URL.EncodeForm(aText);
+            Request.Params.AddItem('text'        , aText, pkGETorPOST, [poDoNotEncode]);
+            Request.Execute;
+            if (Request.Response.StatusCode = 200) and 
+               (Request.Response.Content.Length > 70) then
+            begin
+              var Iterator := TJSONIterator.Create(Request.Response.JSONReader);
+              try
+                if Iterator.Find('translations[0].text') then
+                  result := Iterator.AsString;
+              finally
+                Iterator.Free;
+              end;
+            end;
+          end;
+        tatGoogle: 
+          begin
+            Request.Client.AddParameter('X-goog-api-key', TranslateAPI.APIKey, TRESTRequestParameterKind.pkHTTPHEADER);
+            Request.Params.Clear;
+            Request.Params.AddItem('format' , 'text');
+            Request.Params.AddItem('target' , TranslateAPI.Language);
+            aText := TNetEncoding.URL.EncodeForm(aText);
+            Request.Params.AddItem('q'      , aText, pkGETorPOST, [poDoNotEncode]);
+            Request.Execute;
+            if (Request.Response.StatusCode = 200) and 
+               (Request.Response.Content.Length > 70) then
+            begin
+              var Iterator := TJSONIterator.Create(Request.Response.JSONReader);
+              try
+                if Iterator.Find('data.translations[0].translatedText') then
+                  result := Iterator.AsString;
+              finally
+                Iterator.Free;
+              end;
+            end;
+          end;
       end;
     finally
       Request.Free;
@@ -355,7 +380,8 @@ begin
     Exit;
   if not (Self.ActiveControl is TDBMemo) then
     Exit;
-  DBM := Self.ActiveControl as TDBMemo;
+  var DBM := Self.ActiveControl as TDBMemo;
+  var Text: string;
   if DBM.SelLength = 0 then
     Text := DBM.Text
   else
@@ -477,10 +503,8 @@ begin
 end;
 
 procedure TfrmMain.SetFilterText(s: string);
-var
-  sFilter: string;
 begin
-  sFilter := Trim(edFilter.Text);
+  var sFilter := Trim(edFilter.Text);
   if sFilter <> '' then
     sFilter := sFilter + ' AND ';
   edFilter.SetFocus;
