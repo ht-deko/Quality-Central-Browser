@@ -90,6 +90,9 @@ type
   end;
 
 const
+  SEC_MAIN  = 'SYSTEM';
+  SEC_TRANS = 'TranslateAPI';
+
   MIDX_AREAID = 0;
   MIDX_ATTACHMENT = 1;
   MIDX_BUILD_NO = 2;
@@ -148,8 +151,13 @@ const
   SIDX_PUBLISH = 7;
   SIDX_COMMENT_HEADER = 8;
 
-  SEC_MAIN  = 'SYSTEM';
-  SEC_TRANS = 'TranslateAPI';
+  STATUS_OPEN = 10;
+  STATUS_RESOLVED = 20;
+  STATUS_CLOSED = 30;
+  STATUS_REPORTED = 40;
+  STATUS_WITHDRAWN = 50;
+  STATUS_AUTOMATED_REPORT = 60;
+  STATUS_PENDING = 70;
 
 var
   dmMain: TdmMain;
@@ -165,10 +173,14 @@ implementation
 function GetStatusColor(const Status: Integer; const DefaultColor: TColor): TColor;
 begin
   case Status of
-    10: result := $00D2FFD2;
-    20: result := $00FCC7C2;
-    30: result := $00C4C4FF;
-    50: result := $00E6E6E6;
+    STATUS_OPEN:
+      result := $00D2FFD2;
+    STATUS_RESOLVED:
+      result := $00FCC7C2;
+    STATUS_CLOSED:
+      result := $00C4C4FF;
+    STATUS_WITHDRAWN:
+      result := $00E6E6E6;
   else
     result := DefaultColor;
   end;
