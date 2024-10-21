@@ -40,7 +40,6 @@ type
     ContentType: string;
     Resource: string;
     AuthKey: string;
-    APIKey: string;
     Language: string;
   end;
 
@@ -189,7 +188,6 @@ begin
       ContentType := Ini.ReadString(SEC_TRANS, 'ContentType', 'application/x-www-form-urlencoded');
       Resource    := Ini.ReadString(SEC_TRANS, 'Resource'   , '');
       AuthKey     := Ini.ReadString(SEC_TRANS, 'AuthKey'    , '');
-      APIKey      := Ini.ReadString(SEC_TRANS, 'APIKey'     , '');
       Language    := Ini.ReadString(SEC_TRANS, 'Language'   , '');
       if APIType = tatUnknown then
         Enabled := False;
@@ -351,7 +349,7 @@ procedure TfrmMain.acTranslateExecute(Sender: TObject);
           end;
         tatGoogle: 
           begin
-            Request.Client.AddParameter('X-goog-api-key', TranslateAPI.APIKey, TRESTRequestParameterKind.pkHTTPHEADER);
+            Request.Client.AddParameter('X-goog-api-key', TranslateAPI.AuthKey, TRESTRequestParameterKind.pkHTTPHEADER);
             Request.Params.Clear;
             Request.Params.AddItem('format' , 'text');
             Request.Params.AddItem('target' , TranslateAPI.Language);
