@@ -45,16 +45,17 @@ QCBrowser.exe /UnregisterProtocol
 
 ## DeepL 翻訳
 
-`QCBrowser.exe` と同じ場所に、必要な項目を埋めた `QCBrowser.env` を置くと、下部のタブ内のメモフィールドを〔Ctrl〕+〔T〕で翻訳します (トグル)。
+`QCBrowser.exe` と同じ場所に、必要な項目を埋めた `QCBrowser.env` を置くと、下部のタブ内のメモフィールドを〔Ctrl〕+〔T〕で DeepL 翻訳します (トグル)。
 
 ```
 [TranslateAPI]
+APIType=1                                     // 1=DeepL
 Enabled=0                                     // 1 で有効
 URL=https://api-free.deepl.com                // URL (無償版)
 ;URL=https://api.deepl.com                    // URL (有償版)
 ContentType=application/x-www-form-urlencoded // コンテンツタイプ
 Resource=/v2/translate                        // リソース
-AuthKey=                                      // 取得した DeepL の API キー
+AuthKey=********                              // 取得した DeepL の API キー
 Language=JA                                   // 翻訳先の言語
 ```
 
@@ -66,6 +67,31 @@ Language=JA                                   // 翻訳先の言語
 
  - [DeepL API (DeepL)](https://www.deepl.com/ja/pro-api)
  - [DeepL API Free (DeepL Support)](https://support.deepl.com/hc/ja/articles/360021200939-DeepL-API-Free)
+
+## Google 翻訳 (Google Cloud Translation API)
+
+`QCBrowser.exe` と同じ場所に、必要な項目を埋めた `QCBrowser.env` を置くと、下部のタブ内のメモフィールドを〔Ctrl〕+〔T〕で Cloud Translation 翻訳します (トグル)。
+
+```
+[TranslateAPI]
+APIType=2                                     // 2=Google Cloud Translation
+Enabled=0                                     // 1 で有効
+URL=https://translation.googleapis.com        // URL
+ContentType=application/json; charset=UTF-8   // コンテンツタイプ
+Resource=/language/translate/v2               // リソース (BASIC)
+AuthKey=********                              // 取得した Google の API キー
+Language=ja                                   // 翻訳先の言語
+```
+
+[Comments] タブのコメントはネストされたレコードなので、ポップアップで翻訳されます。
+
+※うまく翻訳されない時は文字列を選択してから〔Ctrl〕+〔T〕を押してみてください。選択範囲を部分的に翻訳します。
+
+**See also:**
+
+ - [Cloud Translation ドキュメント (cloud.google.com)](https://cloud.google.com/translate/docs?hl=ja)
+ - [Method: translate (cloud.google.com)](https://cloud.google.com/translate/docs/reference/rest/v2/translate)
+
 
 ## その他
 Qiita にも記事があります。
