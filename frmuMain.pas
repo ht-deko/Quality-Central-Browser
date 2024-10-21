@@ -349,7 +349,7 @@ procedure TfrmMain.acTranslateExecute(Sender: TObject);
           end;
         tatGoogle: 
           begin
-            Request.Client.AddParameter('X-goog-api-key', TranslateAPI.AuthKey, TRESTRequestParameterKind.pkHTTPHEADER);
+            Request.Client.AddParameter('X-goog-api-key', TranslateAPI.AuthKey, pkHTTPHEADER);
             Request.Params.Clear;
             Request.Params.AddItem('format' , 'text');
             Request.Params.AddItem('target' , TranslateAPI.Language);
