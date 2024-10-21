@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="CODE" fieldtype="i4"/>
-<FIELD attrname="NAME" fieldtype="string" WIDTH="50"/>
+<FIELD attrname="CODE" fieldtype="i4" />
+<FIELD attrname="NAME" fieldtype="string" WIDTH="50" />
 </FIELDS>
-<PARAMS/>
+<PARAMS />
 </METADATA>
 <ROWDATA>
-<ROW CODE="10" NAME="All versions"></ROW>
-<ROW CODE="60" NAME="Windows 95/98/NT 4.0 on Intel"></ROW>
-<ROW CODE="70" NAME="Linux on Intel"></ROW>
-<ROW CODE="430" NAME="All platforms"></ROW>
-<ROW CODE="420" NAME=""></ROW>
-<ROW CODE="460" NAME="RedHat Linux"></ROW>
-<ROW CODE="667" NAME="Web (browser) client"></ROW>
-<ROW CODE="680" NAME="Kylix C++ IDE"></ROW>
-<ROW CODE="690" NAME="Kylix Pascal IDE"></ROW>
-<ROW CODE="" NAME=""></ROW>
+<ROW CODE="0" NAME="Critical / Show Stopper" />
+<ROW CODE="1" NAME="Serious / Highly visible problem" />
+<ROW CODE="2" NAME="Commonly encountered problem" />
+<ROW CODE="3" NAME="Infrequently encountered problem" />
+<ROW CODE="4" NAME="Extreme corner case" />
 </ROWDATA>
 </DATAPACKET>
