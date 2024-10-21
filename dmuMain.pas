@@ -182,13 +182,11 @@ begin
 end;
 
 procedure TdmMain.cdsNestedCalcFields(DataSet: TDataSet);
-var
-  ParentID: Integer;
-  FullName, Reply: string;
 begin
-  FullName := DataSet.Fields[SIDX_FIRST_NAME].AsString.Trim + ' ' +
-              DataSet.Fields[SIDX_LAST_NAME ].AsString.Trim;
-  ParentID := DataSet.Fields[SIDX_PARENTID  ].AsInteger;
+  var FullName := DataSet.Fields[SIDX_FIRST_NAME].AsString.Trim + ' ' +
+                  DataSet.Fields[SIDX_LAST_NAME ].AsString.Trim;
+  var ParentID := DataSet.Fields[SIDX_PARENTID  ].AsInteger;
+  var Reply := '';
   if ParentID <> -1 then
     Reply := Format(' (Re:#%d) ', [ParentID]);
   DataSet.Fields[SIDX_COMMENT_HEADER].AsString :=
