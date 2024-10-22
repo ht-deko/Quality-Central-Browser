@@ -93,6 +93,23 @@ Language=ja                                   // 翻訳先の言語
  - [Method: translate (cloud.google.com)](https://cloud.google.com/translate/docs/reference/rest/v2/translate)
 
 
+## ヘッダ
+EDN のページヘッダを模したヘッダがあり、次の機能があります。
+
+ - GitHub リポジトリへのリンク
+ - X へのシェア
+ - Internet Archive での閲覧 (表示されている QC)
+ - Embarcadero Quality Portal へのリンク
+
+デフォルトでオフですが `QCBrowser.env` に次の記述を行うと起動時に表示されるようになります。
+
+```
+[SYSTEM]
+ShowHeader=1
+```
+
+ヘッダは`〔Ctrl〕+〔H〕`で表示をトグルします。
+
 ## その他
 Qiita にも記事があります。
 
