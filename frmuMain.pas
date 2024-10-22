@@ -8,7 +8,8 @@ uses
   System.Win.Registry, Winapi.Messages, Winapi.ShellAPI, Winapi.Windows, Data.DB,
   REST.Client, REST.Types, Vcl.ActnList, Vcl.Buttons, Vcl.ComCtrls, Vcl.Controls,
   Vcl.DBCGrids, Vcl.DBCtrls, Vcl.DBGrids, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Forms,
-  Vcl.Graphics, Vcl.Grids, Vcl.Imaging.pngimage, Vcl.ImgList, Vcl.Mask, Vcl.StdCtrls;
+  Vcl.Graphics, Vcl.Grids, Vcl.Imaging.pngimage, Vcl.ImgList, Vcl.Mask, Vcl.StdCtrls,
+  Vcl.Imaging.jpeg;
 
 const
   MT_MAIN = 0;
@@ -126,6 +127,12 @@ type
     bbDataList: TBitBtn;
     alDataList: TAction;
     acTranslate: TAction;
+    pnlHeader: TPanel;
+    imgHeader: TImage;
+    Image1: TImage;
+    lblGitHub: TLabel;
+    lblQualityPortal: TLabel;
+    lblX: TLabel;
     procedure acFilterExecute(Sender: TObject);
     procedure acGotoReportExecute(Sender: TObject);
     procedure cdsMainAfterScroll(DataSet: TDataSet);
@@ -145,6 +152,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure acTranslateExecute(Sender: TObject);
     procedure pcDetailChange(Sender: TObject);
+    procedure lblGitHubClick(Sender: TObject);
+    procedure lblQualityPortalClick(Sender: TObject);
+    procedure lblXClick(Sender: TObject);
   private
     { Private Declaration }
     dbmArr: array [TTabRange] of TDBMemo;
@@ -167,6 +177,11 @@ implementation
 uses
   dmuMain, frmuDataList;
 
+procedure ShellOpen(s: string);
+begin
+  ShellExecute(0, 'open', PChar(s), nil, nil, SW_SHOWNORMAL);
+end;
+  
 { TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -179,7 +194,7 @@ begin
 
   var Ini := TMemIniFile.Create(ChangeFileExt(ParamStr(0), '.env'));
   try
-    imgInternetArchive.Visible := Ini.ReadBool(SEC_MAIN, 'ShowInternetArchive', False);
+    pnlHeader.Visible := Ini.ReadBool(SEC_MAIN, 'ShowHeader', False);
     with TranslateAPI do
     begin
       APIType     := TTranslateAPIType(Ini.ReadInteger(SEC_TRANS, 'APIType', Ord(tatDeepL)));
@@ -229,7 +244,7 @@ begin
   onShow := nil;
 
   ClientWidth  := 800;
-  ClientHeight := 640;
+  ClientHeight := 640 + Ord(pnlHeader.Visible) * 128; 
 
   bbDEFECT_NO.Height := edDEFECT_NO.Height;
   bbDEFECT_NO.Width  := bbDEFECT_NO.Height;
@@ -485,6 +500,24 @@ begin
   end;
 end;
 
+procedure TfrmMain.lblGitHubClick(Sender: TObject);
+begin
+  ShellOpen('https://github.com/ht-deko/Quality-Central-Browser');
+end;
+
+procedure TfrmMain.lblQualityPortalClick(Sender: TObject);
+begin
+  ShellOpen('https://embt.atlassian.net/servicedesk/customer/user/requests?page=1&reporter=all');
+end;
+
+procedure TfrmMain.lblXClick(Sender: TObject);
+begin
+  var URL := 'https://x.com/intent/post';
+  URL := URL + '?url='  + TNetEncoding.URL.Encode('QCWIN:Defect_No=' + edDEFECT_NO.Text);
+  URL := URL + '&text=' + TNetEncoding.URL.Encode('QC#' + edDEFECT_NO.Text + ' ' + edSHORT_DESCRIPTION.Text);
+  ShellOpen(URL);
+end;
+
 procedure TfrmMain.Label_DblClick(Sender: TObject);
 begin
   SetFilterText((Sender as TLabel).Hint);
@@ -497,7 +530,7 @@ end;
 
 procedure TfrmMain.imgInternetArchiveClick(Sender: TObject);
 begin
-  ShellExecute(0, 'open', PChar('https://web.archive.org/web/http://qc.embarcadero.com/wc/qcmain.aspx?d=' + edDEFECT_NO.Text) , nil, nil, SW_SHOWNORMAL);
+  ShellOpen('https://web.archive.org/web/http://qc.embarcadero.com/wc/qcmain.aspx?d=' + edDEFECT_NO.Text);
 end;
 
 procedure TfrmMain.SetFilterText(s: string);
